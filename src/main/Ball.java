@@ -1,17 +1,17 @@
-package tutorialMain;
+package main;
 
 import javafx.scene.paint.Color;
 
 public class Ball {
 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private int radius;
-    private double speed;
+    private float speed;
     private Color color;
     double mass;
 
-    public Ball(int x, int y, int radius, Color color) {
+    public Ball(double x, double y, int radius, Color color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -27,27 +27,31 @@ public class Ball {
         return mass;
     }
 
-    public int getX() {
+    public double getCenterX() {
         return x;
     }
 
-    public int getY() {
+    public double getCenterY() {
         return y;
     }
 
-    public double getSpeed() {
+    public double getLayoutX() {return x - radius/2;}
+
+    public double getLayoutY() {return y - radius/2;}
+
+    public float getSpeed() {
         return speed;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 

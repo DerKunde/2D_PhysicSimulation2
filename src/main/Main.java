@@ -1,10 +1,9 @@
-package tutorialMain;
+package main;
 
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.Overlay;
 
 public class Main extends Application {
 
