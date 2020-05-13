@@ -18,26 +18,29 @@ public class Simulation {
 
         this.objects = objects;
         this.gravity = gravity;
-
-
     }
 
     public Simulation() {
         this.objects = new ArrayList<>();
 
-        this.gravity = 9.81f; //  m/s2
+        this.gravity = 981f; //  cm/s2
 
     }
 
-    public static Simulation copy(Simulation simulation) {
+
+    public static Simulation copy (Simulation simulation) {
 
         Simulation copy = new Simulation();
         int i = 0;
-        for(Ball ball : simulation.objects) {
-            copy.objects.add(i, ball);
+        for(Ball ball : simulation.getObjects()) {
+            ArrayList<Ball> copyObjects = copy.getObjects();
+            copyObjects.add(i, simulation.getObjects().get(i));
             i++;
         }
+
         copy.gravity = simulation.gravity;
+
+        System.out.println(copy.objects.get(0).getCenterX());
 
         return copy;
     }
@@ -52,7 +55,7 @@ public class Simulation {
 
             float speed = ball.getSpeed() + gravity * (1/60f);
             System.out.println("Speed: " + speed);
-            double newY = (y + (speed * (1/60f)) + (0.5f * gravity * Math.pow(1/60f, 2)) / 10);
+            double newY = (y + (speed * (1/60f)) + (0.5f * gravity * Math.pow(1/60f, 2)));
 
             if(collision.getDistance(ball.getCenterX(), ball.getCenterY(), ball.getCenterX(), 400) - ball.getRadius()/2 <= 0 && speed > 0) {
                 speed *= -0.8;
@@ -105,9 +108,34 @@ public class Simulation {
         System.out.println(objects.size());
     }
 
+    public void update3() {
+
+        for(int i = 0; i < objects.size(); i++) {
+
+            Ball ball = objects.get(i);
+
+            double x = ball.getCenterX();
+            double y = ball.getCenterY();
+
+            float speed = ball.getSpeed();
+
+            double newX = x + (speed * (1/60f));
+            double newY = y + (0.5f * gravity * Math.pow((1/60f), 2));
+
+            ball.setX(newX);
+            ball.setY(newY);
+            System.out.println("X: " + newX + "Y: " + newY);
+
+        }
+    }
+
 
     public void createBall(int mouseX, int mouseY) {
         objects.add(new Ball(mouseX, mouseY, 40, Color.RED));
+    }
+
+    private ArrayList<Ball> getObjects() {
+        return this.objects;
     }
 
     public void step() {
