@@ -124,7 +124,7 @@ public class MainView extends VBox {
         this.applicationState = applicationState;
         System.out.println("Current Application State: " + this.applicationState);
         if(applicationState == SIMULATING) {
-            //this.simulation = Simulation.copy(this.initialSimulation);
+            this.simulation = Simulation.copy(this.initialSimulation);
             this.simulator = new Simulator(this, this.simulation);
             System.out.println("Copy Made");
         }
