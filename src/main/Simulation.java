@@ -33,9 +33,10 @@ public class Simulation {
         Simulation copy = new Simulation();
         int i = 0;
         for(Ball ball : simulation.getObjects()) {
-            ArrayList<Ball> copyObjects = copy.getObjects();
-            copyObjects.add(i, simulation.getObjects().get(i));
-            i++;
+            Ball simBall = simulation.getObjects().get(i);
+
+            Ball copyBall = new Ball(simBall.getLayoutX(), simBall.getLayoutY(), simBall.getRadius(), simBall.getColor());
+            copy.getObjects().add(i, copyBall);
         }
 
         copy.gravity = simulation.gravity;
@@ -47,9 +48,9 @@ public class Simulation {
 
     public void update() {
 
-        for(int i = 0; i < objects.size(); i++) {
+        for(int i = 0; i < this.objects.size(); i++) {
 
-            Ball ball = objects.get(i);
+            Ball ball = this.objects.get(i);
 
             double y = ball.getCenterY();
 
