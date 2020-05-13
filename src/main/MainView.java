@@ -140,6 +140,8 @@ public class MainView extends VBox {
 
     public void testDraw() {
 
+        // Show initial Sim state
+
         GraphicsContext tgc = test.getGraphicsContext2D();
 
         tgc.setFill(Color.DARKCYAN);
