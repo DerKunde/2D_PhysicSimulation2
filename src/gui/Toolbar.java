@@ -49,7 +49,6 @@ public class Toolbar extends ToolBar {
     }
 
     private void handleReset(ActionEvent actionEvent) {
-        this.mainView.getSimulator().stop();
         this.mainView.setApplicationState(MainView.EDITING);
         this.mainView.draw();
 

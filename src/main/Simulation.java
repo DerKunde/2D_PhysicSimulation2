@@ -35,7 +35,7 @@ public class Simulation {
         for(Ball ball : simulation.getObjects()) {
             Ball simBall = simulation.getObjects().get(i);
 
-            Ball copyBall = new Ball(simBall.getLayoutX(), simBall.getLayoutY(), simBall.getRadius(), simBall.getColor());
+            Ball copyBall = new Ball(simBall.getCenterX(), simBall.getCenterY(), simBall.getRadius(), simBall.getColor());
             copy.getObjects().add(i, copyBall);
         }
 

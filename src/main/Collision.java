@@ -1,5 +1,8 @@
 package main;
 
+import javax.vecmath.Vector2d;
+import javax.vecmath.Vector2f;
+
 public class Collision {
 
 
@@ -15,8 +18,6 @@ public class Collision {
 
         return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
     }
-
-    
 }
 
 
