@@ -20,24 +20,18 @@ public class Toolbar extends ToolBar {
         Button start = new Button("Start Sim");
         Button stop = new Button("Stop");
 
-        Button test = new Button("Test");
-
         newBall.setOnAction(this::handleNewBall);
         start.setOnAction(this::handleStart);
         step.setOnAction(this::handleStep);
         reset.setOnAction(this::handleReset);
         stop.setOnAction(this::handleStop);
 
-        test.setOnAction(this::handleTest);
 
 
 
-        this.getItems().addAll(newBall, start, stop, step, reset, test);
+        this.getItems().addAll(newBall, start, stop, step, reset);
     }
 
-    private void handleTest(ActionEvent actionEvent) {
-        this.mainView.testDraw();
-    }
 
     private void handleStop(ActionEvent actionEvent) {
         this.mainView.getSimulator().stop();

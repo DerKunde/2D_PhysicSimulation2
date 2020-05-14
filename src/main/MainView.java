@@ -28,19 +28,15 @@ public class MainView extends VBox {
 
     private int applicationState = EDITING;
 
-    Canvas test;
-
     public MainView() {
         this.canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-
-        this.test = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
         Toolbar toolbar = new Toolbar(this);
 
         this.canvas.setOnMousePressed(this::handleDraw);
 
 
-        this.getChildren().addAll(toolbar, this.canvas, test);
+        this.getChildren().addAll(toolbar, this.canvas);
 
         Ball b1 = new Ball(100, 200, 30, Color.CORAL);
         Ball b2 = new Ball(300, 200, 30, Color.NAVY);
@@ -136,24 +132,5 @@ public class MainView extends VBox {
 
     public int getApplicationState() {
         return this.applicationState;
-    }
-
-    public void testDraw() {
-
-        // Show initial Sim state
-
-        GraphicsContext tgc = test.getGraphicsContext2D();
-
-        tgc.setFill(Color.DARKCYAN);
-        tgc.fillRect(0,0,450,450);
-
-        for(int i = 0; i < this.initialSimulation.objects.size(); i++) {
-
-            Ball ball = initialSimulation.objects.get(i);
-
-            tgc.setFill(ball.getColor());
-            tgc.fillOval(ball.getLayoutX(), ball.getLayoutY(), ball.getRadius(), ball.getRadius());
-        }
-
     }
 }
