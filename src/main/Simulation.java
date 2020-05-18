@@ -125,18 +125,18 @@ public class Simulation {
                 break;
             }
 
-            PhysicObject ball = objects.get(i);
+            PhysicObject obj = objects.get(i);
 
-            double x = ball.getCenter().x;
-            double y = ball.getCenter().y;
+            double x = obj.getCenter().x;
+            double y = obj.getCenter().y;
 
-            Vector2f speed = ball.getSpeed();
-            Vector2f velocity = ball.getVelocity();
+            Vector2f speed = obj.getSpeed();
+            Vector2f velocity = obj.getVelocity();
 
             float velX = speed.x + velocity.x * (1/60f);
             float velY = speed.y + gravity.y * (1/60f);
 
-            if(collision.checkCollision(ball)) {
+            if(collision.checkCollision(obj)) {
                 velY *= -0.8;
                 velX *= 0.8;
             }
@@ -144,9 +144,9 @@ public class Simulation {
             float newX = (float) (x + speed.x * (1/60f) + 0.5f * velocity.x * Math.pow(1/60f, 2));
             float newY = (float) (y + speed.y * (1/60f) + 0.5f * gravity.y * Math.pow(1/60f, 2));
 
-            ball.setCenter(new Vector2f(newX, newY));
+            obj.setCenter(new Vector2f(newX, newY));
 
-            ball.setSpeed(new Vector2f(velX, velY));
+            obj.setSpeed(new Vector2f(velX, velY));
             System.out.println("X: " + newX + "Y: " + newY);
             System.out.println("VelX: " + velX + "VelY: " +velY);
 

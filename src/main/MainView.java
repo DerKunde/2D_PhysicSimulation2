@@ -20,8 +20,8 @@ public class MainView extends VBox {
 
     private Canvas canvas;
 
-    public static final int CANVAS_HEIGHT = 400;
-    public static final int CANVAS_WIDTH = 400;
+    public static final int CANVAS_HEIGHT = 500;
+    public static final int CANVAS_WIDTH = 500;
 
     public Simulation initialSimulation;
     private Simulation simulation;
@@ -33,12 +33,10 @@ public class MainView extends VBox {
     public MainView() {
         this.canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
-        Toolbar toolbar = new Toolbar(this);
-
         this.canvas.setOnMousePressed(this::handleDraw);
 
 
-        this.getChildren().addAll(toolbar, this.canvas);
+        this.getChildren().addAll(this.canvas);
 
         Ball b1 = new Ball(100, 200, 30, Color.CORAL);
         Ball b2 = new Ball(300, 200, 30, Color.NAVY);
@@ -67,7 +65,7 @@ public class MainView extends VBox {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(0,0,450,450);
+        gc.fillRect(0,0,MainView.CANVAS_WIDTH + 50,MainView.CANVAS_HEIGHT + 50);
         drawScale();
         if(this.applicationState == EDITING) {
             drawSimulation(this.initialSimulation);

@@ -17,7 +17,7 @@ public class Collision {
 
     public boolean checkCollision(PhysicObject obj) {
 
-        double distance = getDistance(obj.getCenter().x, obj.getCenter().y, obj.getCenter().x, 400);
+        double distance = getDistance(obj.getCenter().x, obj.getCenter().y, obj.getCenter().x, MainView.CANVAS_HEIGHT);
         System.out.println("Distance: " + distance);
         if(obj instanceof Ball) {
             System.out.println("Ball detected");
