@@ -31,7 +31,6 @@ public class Toolbar extends ToolBar {
 
         this.getItems().addAll(newBall, start, stop, step, reset);
     }
-        //test123
 
     private void handleStop(ActionEvent actionEvent) {
         this.mainView.getSimulator().stop();

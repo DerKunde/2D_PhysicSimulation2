@@ -6,10 +6,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import gui.Toolbar;
+import physic.Ball;
+import physic.PhysicObject;
 
+import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.spi.CalendarNameProvider;
 
 public class MainView extends VBox {
 
@@ -40,16 +42,12 @@ public class MainView extends VBox {
 
         Ball b1 = new Ball(100, 200, 30, Color.CORAL);
         Ball b2 = new Ball(300, 200, 30, Color.NAVY);
-        b1.setSpeed(50f);
-        b1.setMass(5);
-        b2.setSpeed(0);
-        b2.setMass(6);
 
-        ArrayList<Ball> obj = new ArrayList<Ball>(
+        ArrayList<PhysicObject> obj = new ArrayList<>(
                 Arrays.asList(b1)
         );
 
-        this.initialSimulation = new Simulation(obj, 981f);
+        this.initialSimulation = new Simulation(obj, new Vector2f(0,981f));
         this.simulation = Simulation.copy(this.initialSimulation);
     }
 
@@ -83,13 +81,7 @@ public class MainView extends VBox {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         for(int i = 0; i < simulationToDraw.objects.size(); i++) {
-            double x = simulationToDraw.objects.get(i).getLayoutX();
-            double y = simulationToDraw.objects.get(i).getLayoutY();
-            int radius = simulationToDraw.objects.get(i).getRadius();
-            Color color = simulationToDraw.objects.get(i).getColor();
-
-            gc.setFill(color);
-            gc.fillOval(x,y,radius,radius);
+            simulationToDraw.objects.get(i).drawObj(gc);
         }
 
     }
