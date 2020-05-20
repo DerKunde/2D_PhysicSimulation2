@@ -18,12 +18,13 @@ public class Rectangle extends PhysicObject {
 
     int width;
     int height;
+    Color color;
 
-
-    public Rectangle(Vector2f center, int width, int height) {
+    public Rectangle(Vector2f center, int width, int height,Color color) {
         this.center = center;
         this.width = width;
         this.height = height;
+        this.color = color;
 
         this.p01 = new Vector2f(center.x - width/2, center.y + height/2);
         this.p02 = new Vector2f(center.x - width/2, center.y - height/2);
@@ -42,7 +43,6 @@ public class Rectangle extends PhysicObject {
         this.fixed = true;
 
     }
-
 
     public ArrayList<Vector2f> getVerticies() {
         return verticies;
@@ -64,16 +64,24 @@ public class Rectangle extends PhysicObject {
         this.height = height;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public void drawObj(GraphicsContext gc) {
 
-        gc.setFill(Color.BLACK);
+        gc.setFill(getColor());
         gc.fillRect(this.center.x, this.center.y, width, height);
 
-        gc.setFill(Color.RED);
-        gc.fillOval(p01.x, p01.y, 10,10);
-        gc.fillOval(p02.x, p02.y, 10,10);
-        gc.fillOval(p03.x, p03.y, 10,10);
-        gc.fillOval(p04.x, p04.y, 10,10);
+        //gc.setFill(Color.RED);
+        //gc.fillOval(p01.x, p01.y, 10,10);
+        //gc.fillOval(p02.x, p02.y, 10,10);
+        //gc.fillOval(p03.x, p03.y, 10,10);
+        //gc.fillOval(p04.x, p04.y, 10,10);
 
 
     }

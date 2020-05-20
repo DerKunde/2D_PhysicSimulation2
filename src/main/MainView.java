@@ -2,12 +2,14 @@ package main;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import gui.Toolbar;
 import physic.Ball;
 import physic.PhysicObject;
+import physic.Rectangle;
 
 import javax.vecmath.Vector2f;
 import java.util.ArrayList;
@@ -30,11 +32,11 @@ public class MainView extends VBox {
 
     private int applicationState = EDITING;
 
+    public int wertObj;
+
     public MainView() {
         this.canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-
         this.canvas.setOnMousePressed(this::handleDraw);
-
 
         this.getChildren().addAll(this.canvas);
 
@@ -49,13 +51,23 @@ public class MainView extends VBox {
         this.simulation = Simulation.copy(this.initialSimulation);
     }
 
+    //Befor der Ball erstellt wird wird diese Funktion aufgerufen
     private void handleDraw(MouseEvent mouseEvent) {
 
         int mouseX = (int) mouseEvent.getX();
         int mouseY = (int) mouseEvent.getY();
 
+        //Hier ist einfach wenn der Modus Editing ist das man den Ball zeichnen kann
         if(applicationState == EDITING) {
-            this.initialSimulation.createBall(mouseX, mouseY);
+
+            /*  TODO: Hier Könnte man statdessen eine Funktion einbinden die verschiedene Objekte zeichnet
+                TODO: Am besten werden die Rechtecke eingefärbt so das man erkennt was ausgewählt ist*/
+
+            this.initialSimulation.creatShape(mouseX,mouseY,this.wertObj);
+
+            //CreatBall wird in Simulation erstellt
+            //this.initialSimulation.createBall(mouseX, mouseY);
+
             System.out.println(mouseX + ", " + mouseY);
             draw();
         }
@@ -67,6 +79,8 @@ public class MainView extends VBox {
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0,0,MainView.CANVAS_WIDTH + 50,MainView.CANVAS_HEIGHT + 50);
         drawScale();
+
+        //Ist es editing dan speichere die simulation ansonsten aktiviere die Simulation
         if(this.applicationState == EDITING) {
             drawSimulation(this.initialSimulation);
         } else {
@@ -116,6 +130,15 @@ public class MainView extends VBox {
         }
     }
 
+    public int getWert() {
+        return wertObj;
+    }
+
+    public void setWert(int wert) {
+        this.wertObj = wert;
+        System.out.println("set Wert auf: "+ this.wertObj);
+    }
+
     public Simulator getSimulator() {
         return simulator;
     }
@@ -123,4 +146,5 @@ public class MainView extends VBox {
     public int getApplicationState() {
         return this.applicationState;
     }
+
 }

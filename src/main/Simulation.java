@@ -1,8 +1,11 @@
 package main;
 
 
+import gui.Controller;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import physic.Ball;
+import physic.Linie;
 import physic.PhysicObject;
 import physic.Rectangle;
 
@@ -24,7 +27,7 @@ public class Simulation {
         this.objects = objects;
         this.gravity = gravity;
 
-        this.objects.add(new Rectangle(new Vector2f(100, 300), 50, 50));
+        //this.objects.add(new Rectangle(new Vector2f(100, 300), 50, 50,Color.TRANSPARENT));
     }
 
     public Simulation() {
@@ -42,7 +45,10 @@ public class Simulation {
                 copy.getObjects().add(new Ball(obj.getCenter().x, obj.getCenter().y, ((Ball) obj).getRadius(), ((Ball) obj).getColor()));
             }
             if(obj instanceof Rectangle) {
-                copy.getObjects().add(new Rectangle(obj.getCenter(), ((Rectangle) obj).getWidth(), ((Rectangle) obj).getHeight()));
+                copy.getObjects().add(new Rectangle(obj.getCenter(), ((Rectangle) obj).getWidth(), ((Rectangle) obj).getHeight(),((Rectangle)obj).getColor()));
+            }
+            if(obj instanceof Linie){
+                //TODO muss noch gespeichert werden
             }
         }
 
@@ -117,7 +123,7 @@ public class Simulation {
 //        System.out.println(objects.size());
 //    }
 //
-    public void update3() {
+    /*public void update3() {
 
         for(int i = 0; i < objects.size(); i++) {
 
@@ -151,14 +157,59 @@ public class Simulation {
             System.out.println("VelX: " + velX + "VelY: " +velY);
 
         }
-    }
+    }*/
 
     public void update4() {
 
 
     }
 
+    //Von Vika
+    boolean aktiv = false;
 
+    public void creatShape(int mouseX,int mouseY,int wertSim){
+        //Gerade
+        if(wertSim==1){
+            objects.add(new Linie(mouseX,mouseY,mouseX+100,mouseY,10,Color.BLACK));
+        }
+        //Schräge
+        if(wertSim==2){
+            objects.add(new Linie(mouseX,mouseY,mouseX+100,mouseY+30,5,Color.GREEN));
+        }
+        //Falltür oder was anderes
+        if(wertSim==3){
+            objects.add(new Linie(mouseX,mouseY,mouseX+100,mouseY,3,Color.RED));
+        }
+        //Ball
+        if(wertSim==4){
+            objects.add(new Ball(mouseX,mouseY,50,Color.AQUA));
+        }
+        //Rechteck
+        if(wertSim==5){
+            objects.add(new Rectangle(new Vector2f(mouseX,mouseY),50,50,Color.CHOCOLATE));
+        }
+        else {
+            System.out.println("Kein Objekt ausgewählt!");
+        }
+    }
+
+
+    ToggleButton button;
+
+    public ToggleButton getButton() {
+        return button;
+    }
+
+    public void setButton(ToggleButton button) {
+        this.button = button;
+    }
+
+
+    public void checkActiv(ToggleButton button){
+
+    }
+
+    //Hier wird der Ball auf dem Canvans erstellt
     public void createBall(int mouseX, int mouseY) {
         objects.add(new Ball(mouseX, mouseY, 40, Color.RED));
     }
@@ -168,6 +219,6 @@ public class Simulation {
     }
 
     public void step() {
-        update3();
+        update4();
     }
 }
