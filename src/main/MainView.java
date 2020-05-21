@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import gui.Toolbar;
 import physic.Ball;
 import physic.PhysicObject;
+import physic.Rectangle;
 
 import javax.vecmath.Vector2f;
 import java.util.ArrayList;
@@ -38,11 +39,14 @@ public class MainView extends VBox {
 
         this.getChildren().addAll(this.canvas);
 
-        Ball b1 = new Ball(100, 200, 30, Color.CORAL);
-        Ball b2 = new Ball(300, 200, 30, Color.NAVY);
+        Ball b1 = new Ball(new Vector2f(100,400), 30, Color.CORAL);
+        Ball b2 = new Ball(new Vector2f(200,300), 30, Color.NAVY);
+
+        PhysicObject r1 = new Rectangle(new Vector2f(100, 300), 150, 50);
+        PhysicObject r2 = new Rectangle(new Vector2f(120, 320), 80,80);
 
         ArrayList<PhysicObject> obj = new ArrayList<>(
-                Arrays.asList(b1)
+                Arrays.asList(r1)
         );
 
         this.initialSimulation = new Simulation(obj, new Vector2f(0,981f));
@@ -66,7 +70,7 @@ public class MainView extends VBox {
 
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0,0,MainView.CANVAS_WIDTH + 50,MainView.CANVAS_HEIGHT + 50);
-        drawScale();
+        //drawScale();
         if(this.applicationState == EDITING) {
             drawSimulation(this.initialSimulation);
         } else {
@@ -112,7 +116,6 @@ public class MainView extends VBox {
         if(applicationState == SIMULATING) {
             this.simulation = Simulation.copy(this.initialSimulation);
             this.simulator = new Simulator(this, this.simulation);
-            System.out.println("Copy Made");
         }
     }
 

@@ -11,10 +11,14 @@ public class Simulator {
     private MainView mainView;
     private Simulation simulation;
 
+    private Duration deltaT;
+
     public Simulator(MainView mainView, Simulation simulation) {
+
+        this.deltaT = Duration.seconds(1/60f);
         this.simulation = simulation;
         this.mainView = mainView;
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1/60f), this::doStep));
+        this.timeline = new Timeline(new KeyFrame(deltaT, this::doStep));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
@@ -31,4 +35,11 @@ public class Simulator {
         this.timeline.stop();
     }
 
+    public void setDeltaT(Duration deltaT) {
+        this.deltaT = deltaT;
+    }
+
+    public Duration getDeltaT() {
+        return deltaT;
+    }
 }

@@ -1,8 +1,10 @@
 package physic;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import javax.vecmath.Vector2f;
+import java.util.ArrayList;
 
 abstract public class PhysicObject {
 
@@ -11,7 +13,11 @@ abstract public class PhysicObject {
     Vector2f speed;
     double mass;
 
+    ArrayList<Vector2f> axis;
+
     boolean fixed;
+
+    Color color;
 
 
     public Vector2f getCenter() {
@@ -55,4 +61,26 @@ abstract public class PhysicObject {
     }
 
     public abstract void drawObj(GraphicsContext gc);
+
+    public ArrayList<Vector2f> getAxis() {
+        return axis;
+    }
+
+    public void setAxis(ArrayList<Vector2f> axis) {
+        this.axis = axis;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public abstract void calculateAxis();
+
+    public abstract Projection project(Vector2f axis);
+
+    public abstract void update();
 }

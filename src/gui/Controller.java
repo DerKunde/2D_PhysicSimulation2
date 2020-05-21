@@ -3,6 +3,7 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.MainView;
@@ -14,12 +15,15 @@ public class Controller {
     @FXML
     StackPane mainViewContainer = new StackPane();
 
+    @FXML
+    TextField xInput = new TextField();
+    TextField yInput = new TextField();
+
     public void initialize() {
         this.mainView = new MainView();
         this.mainView.draw();
 
         mainViewContainer.getChildren().add(mainView);
-
     }
 
     @FXML
@@ -43,10 +47,14 @@ public class Controller {
     @FXML
     void create(ActionEvent event) {
 
+        this.mainView.initialSimulation.createBall(100, 100, 50, 200);
+        this.mainView.draw();
+
     }
 
     @FXML
     void pause(ActionEvent event) {
+        this.mainView.setApplicationState(MainView.EDITING);
         this.mainView.getSimulator().stop();
     }
 

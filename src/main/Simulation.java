@@ -16,15 +16,10 @@ public class Simulation {
     Vector2f gravity;
     Collision collision = new Collision();
 
-
-    ArrayList<PhysicObject> objList;
-
     public Simulation(ArrayList<PhysicObject> objects, Vector2f gravity) {
 
         this.objects = objects;
         this.gravity = gravity;
-
-        this.objects.add(new Rectangle(new Vector2f(100, 300), 50, 50));
     }
 
     public Simulation() {
@@ -39,10 +34,12 @@ public class Simulation {
         Simulation copy = new Simulation();
         for(PhysicObject obj : simulation.getObjects()) {
             if(obj instanceof Ball) {
-                copy.getObjects().add(new Ball(obj.getCenter().x, obj.getCenter().y, ((Ball) obj).getRadius(), ((Ball) obj).getColor()));
+                copy.getObjects().add(new Ball(new Vector2f(obj.getCenter().x, obj.getCenter().y), ((Ball) obj).getRadius(), ((Ball) obj).getColor()));
             }
             if(obj instanceof Rectangle) {
-                copy.getObjects().add(new Rectangle(obj.getCenter(), ((Rectangle) obj).getWidth(), ((Rectangle) obj).getHeight()));
+                Rectangle copyRect = new Rectangle(obj.getCenter(), ((Rectangle) obj).getWidth(), ((Rectangle) obj).getHeight());
+                copyRect.calculateAxis();
+                copy.getObjects().add(copyRect);
             }
         }
 
@@ -121,9 +118,9 @@ public class Simulation {
 
         for(int i = 0; i < objects.size(); i++) {
 
-            if(objects.get(i).isFixed()) {
-                break;
-            }
+//            if(objects.get(i).isFixed()) {
+//                break;
+//            }
 
             PhysicObject obj = objects.get(i);
 
@@ -132,24 +129,31 @@ public class Simulation {
 
             Vector2f speed = obj.getSpeed();
             Vector2f velocity = obj.getVelocity();
+            System.out.println(velocity);
 
-            float velX = speed.x + velocity.x * (1/60f);
-            float velY = speed.y + gravity.y * (1/60f);
+            float speedX = speed.x + velocity.x * (1/60f);
+            float speedY = speed.y + gravity.y * (1/60f);
 
             if(collision.checkCollision(obj)) {
-                velY *= -0.8;
-                velX *= 0.8;
+                speedY *= -0.8;
+                speedX *= 0.8;
             }
 
-            float newX = (float) (x + speed.x * (1/60f) + 0.5f * velocity.x * Math.pow(1/60f, 2));
-            float newY = (float) (y + speed.y * (1/60f) + 0.5f * gravity.y * Math.pow(1/60f, 2));
+            if(collision.checkCollision(objects.get(i), objects.get(i + 1 == objects.size() ? 0 : i + 1)) && speedY > 0) {
+                speedY *= -0.8;
+                speedX *= 0.8;
+            }
 
-            obj.setCenter(new Vector2f(newX, newY));
 
-            obj.setSpeed(new Vector2f(velX, velY));
-            System.out.println("X: " + newX + "Y: " + newY);
-            System.out.println("VelX: " + velX + "VelY: " +velY);
+            if(!obj.isFixed()) {
+                float newX = (float) (x + speed.x * (1/60f) + 0.5f * velocity.x * Math.pow(1/60f, 2));
+                float newY = (float) (y + speed.y * (1/60f) + 0.5f * gravity.y * Math.pow(1/60f, 2));
 
+                obj.setCenter(new Vector2f(newX, newY));
+                obj.setSpeed(new Vector2f(speedX, speedY));
+            }
+
+            obj.update();
         }
     }
 
@@ -160,7 +164,12 @@ public class Simulation {
 
 
     public void createBall(int mouseX, int mouseY) {
-        objects.add(new Ball(mouseX, mouseY, 40, Color.RED));
+        PhysicObject ball = new Ball(new Vector2f(mouseX, mouseY), 50, Color.NAVY);
+        this.objects.add(ball);
+    }
+
+    public void createBall(int posX, int posY, double mass, int radius) {
+        objects.add(new Ball(posX, posY, radius, mass));
     }
 
     private ArrayList<PhysicObject> getObjects() {
