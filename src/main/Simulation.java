@@ -9,6 +9,9 @@ import physic.Rectangle;
 import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 
+/**
+ * Die Klass Simulation strukturiert den Ablauf der Simulation. In der Liste objects sind alle Objekte gespeichert die in der Simulation vorhanden sind.
+ */
 public class Simulation {
 
 
@@ -28,7 +31,11 @@ public class Simulation {
         this.gravity = new Vector2f(0, 9.81f); //  m/s2
     }
 
-
+    /**
+     * Fertigt eine Kopie einer Simulation an
+     * @param simulation Zu kopierende Simulation
+     * @return Kopie der Simulation
+     */
     public static Simulation copy (Simulation simulation) {
 
         Simulation copy = new Simulation();
@@ -114,10 +121,13 @@ public class Simulation {
 //        System.out.println(objects.size());
 //    }
 //
+
+    /**
+     * Führt Berechnungen für alle physikalischen Objekte in der Simulation durch und ruft die Kollisionsabfrage auf.
+     */
     public void update3() {
 
         for(int i = 0; i < objects.size(); i++) {
-
 //            if(objects.get(i).isFixed()) {
 //                break;
 //            }
@@ -131,18 +141,28 @@ public class Simulation {
             Vector2f velocity = obj.getVelocity();
             System.out.println(velocity);
 
+            //Geschwindigkeit in X und Y Richtung wird Berechnet.
             float speedX = speed.x + velocity.x * (1/60f);
             float speedY = speed.y + gravity.y * (1/60f);
 
+            //Kollision mit den Rändern des Canvas wird geprüft.
             if(collision.checkCollision(obj)) {
                 speedY *= -0.8;
                 speedX *= 0.8;
             }
 
-            if(collision.checkCollision(objects.get(i), objects.get(i + 1 == objects.size() ? 0 : i + 1)) && speedY > 0) {
-                speedY *= -0.8;
-                speedX *= 0.8;
+            //Kollision der Objekte untereinander wird geprüft.
+            for(int j = i; j < objects.size(); j++) {
+                if(collision.checkCollision(obj, objects.get(j + 1 == objects.size() ? 0 : j + 1)) && speedY > 0) {
+                    speedY *= -0.8;
+                    speedX *= 0.8;
+                }
+
             }
+//            if(collision.checkCollision(objects.get(i), objects.get(i + 1 == objects.size() ? 0 : i + 1)) && speedY > 0) {
+//                speedY *= -0.8;
+//                speedX *= 0.8;
+//            }
 
 
             if(!obj.isFixed()) {
@@ -164,7 +184,7 @@ public class Simulation {
 
 
     public void createBall(int mouseX, int mouseY) {
-        PhysicObject ball = new Ball(new Vector2f(mouseX, mouseY), 50, Color.NAVY);
+        PhysicObject ball = new Ball(new Vector2f(mouseX, mouseY), 50, Color.WHEAT);
         this.objects.add(ball);
     }
 
@@ -176,6 +196,9 @@ public class Simulation {
         return this.objects;
     }
 
+    /**
+     * Wird im Simulator aufgerufen für jeden Frame.
+     */
     public void step() {
         update3();
     }

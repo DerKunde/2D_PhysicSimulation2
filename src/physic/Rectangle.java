@@ -7,8 +7,12 @@ import javax.vecmath.Vector2d;
 import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 
+/**
+ * Beschreibt ein Rechteck.
+ */
 public class Rectangle extends PhysicObject {
 
+    //Eckpunkte des Rechtecks.
     Vector2f p01;
     Vector2f p02;
     Vector2f p03;
@@ -24,6 +28,7 @@ public class Rectangle extends PhysicObject {
         this.center = center;
         this.width = width;
         this.height = height;
+        this.color = Color.NAVY;
 
         verticies = new ArrayList<>();
 
@@ -35,6 +40,8 @@ public class Rectangle extends PhysicObject {
         this.axis = new ArrayList<>();
 
         update();
+
+       // roatation(45);
     }
 
 
@@ -58,6 +65,9 @@ public class Rectangle extends PhysicObject {
         this.height = height;
     }
 
+    /**
+     * Berechnet die Achsen des Rechtecks für das SAT.
+     */
     public void calculateAxis() {
         for(int i = 0; i < verticies.size(); i++) {
 
@@ -73,6 +83,11 @@ public class Rectangle extends PhysicObject {
 
     }
 
+    /**
+     * Projiziert auf die berechneten Achsen.
+     * @param axis Achse auf die projiziert werden soll.
+     * @return Berechnete Projektion.
+     */
     @Override
     public Projection project(Vector2f axis) {
 
@@ -94,6 +109,50 @@ public class Rectangle extends PhysicObject {
         return proj;
     }
 
+    /**
+     * Soll das Rechteck um seinen Mittelpunkt rotieren.
+     * @param degree Rotationswinkel
+     */
+    public void roatation(int degree) {
+
+        //Berechnung neues Koordinatensystem
+        ArrayList<Vector2f> newCoords = new ArrayList<>();
+
+        for(int i = 0; i < this.verticies.size(); i++) {
+
+            Vector2f vertexOld = this.verticies.get(i);
+
+            float newX = vertexOld.x - this.center.x;
+            float newY = vertexOld.y - this.center.y;
+
+            newCoords.add(new Vector2f(newX, newY));
+        }
+
+        for(int i = 0; i < newCoords.size(); i++) {
+
+            Vector2f vertex = newCoords.get(i);
+
+            double newX = vertex.x * Math.cos(degree) + vertex.y * Math.sin(degree);
+            double newY = vertex.x * Math.sin(degree) + vertex.y * Math.cos(degree);
+            //Vector2f newVertex = new Vector2f(newX, newY);
+            //newCoords.add(i, newVertex);
+        }
+
+        for(int i = 0; i < newCoords.size(); i++) {
+
+            Vector2f vertex = newCoords.get(i);
+
+            Vector2f newVertex = new Vector2f(vertex.x + this.center.x, vertex.y + this.center.y);
+
+            newCoords.add(i, newVertex );
+        }
+
+        this.verticies = newCoords;
+    }
+
+    /**
+     * Aktualisiert die Eckpunkte des Rechtecks.
+     */
     @Override
     public void update() {
 
@@ -109,9 +168,13 @@ public class Rectangle extends PhysicObject {
 
     }
 
+    /**
+     * Zeichnet das Rechteck auf dem Canvas
+     * @param gc GraphicsContext des Canvas auf dem gezeichnet werden soll.
+     */
     public void drawObj(GraphicsContext gc) {
 
-        gc.setFill(Color.BLACK);
+        gc.setFill(this.color);
         gc.fillRect(this.center.x - width/2, this.center.y - height/2, width, height);
 
         gc.setFill(Color.RED);
@@ -128,11 +191,6 @@ public class Rectangle extends PhysicObject {
 
         gc.setFill(Color.PAPAYAWHIP);
         gc.fillOval(center.x - 5, center.y - 5, 10,10);
-
-        for(int i = 0; i < axis.size(); i++) {
-            gc.setFill(Color.NAVY);
-            gc.fillOval(axis.get(i).x - 5, axis.get(i).y - 5, 10, 10);
-        }
     }
 
 }

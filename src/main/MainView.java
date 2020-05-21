@@ -5,7 +5,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import gui.Toolbar;
 import physic.Ball;
 import physic.PhysicObject;
 import physic.Rectangle;
@@ -14,6 +13,11 @@ import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * In der Klasse MainView wird das Zeichnen der Simulation behandelt. Außerdem werden hier die Simulationen bearbeitet.
+ * Es gibt zwei Objekte der Klasse Simulation, initialSimulation speichert den Ausgangszustand ab um das Zurücksetzten zu ermöglichen.
+ * Des weitern wird hier das Objekt simulator der Klasse Simulator erzeugt.
+ */
 public class MainView extends VBox {
 
     public static final int EDITING = 0;
@@ -42,17 +46,21 @@ public class MainView extends VBox {
         Ball b1 = new Ball(new Vector2f(100,400), 30, Color.CORAL);
         Ball b2 = new Ball(new Vector2f(200,300), 30, Color.NAVY);
 
-        PhysicObject r1 = new Rectangle(new Vector2f(100, 300), 150, 50);
-        PhysicObject r2 = new Rectangle(new Vector2f(120, 320), 80,80);
+        PhysicObject r1 = new Rectangle(new Vector2f(0, 380), 400, 50);
+        PhysicObject r2 = new Rectangle(new Vector2f(500, 250), 300,50);
 
         ArrayList<PhysicObject> obj = new ArrayList<>(
-                Arrays.asList(r1)
+                Arrays.asList(r1, r2)
         );
 
         this.initialSimulation = new Simulation(obj, new Vector2f(0,981f));
         this.simulation = Simulation.copy(this.initialSimulation);
     }
 
+    /**
+     * Mit einem Klick auf den Canvas kann eine neue Kugel erzeugt werden falls sie die Anwendung im EDITING Mode befindet.
+     * @param mouseEvent
+     */
     private void handleDraw(MouseEvent mouseEvent) {
 
         int mouseX = (int) mouseEvent.getX();
@@ -65,6 +73,10 @@ public class MainView extends VBox {
         }
     }
 
+    /**
+     * Die Methode draw überprüft den applicationState um zu entscheiden welche der beiden Simulationen gezeichnet werden
+     * soll.
+     */
     public void draw() {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
@@ -78,6 +90,10 @@ public class MainView extends VBox {
         }
     }
 
+    /**
+     * Die übergeben Simulation wird gezeichnet.
+     * @param simulationToDraw Zu zeichnende Simulation.
+     */
     private void drawSimulation(Simulation simulationToDraw) {
 
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
@@ -88,23 +104,34 @@ public class MainView extends VBox {
 
     }
 
-    private void drawScale() {
-        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+    /**
+     * Zeichnet eine einfache Orientierung für die Sprunghöhe.
+     */
+//    private void drawScale() {
+//        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+//
+//        for(int i = 400; i > 0; i -= 100) {
+//            gc.setFill(Color.BLACK);
+//            gc.fillRect(0, i, 30, 10);
+//        }
+//
+//        for(int i = 0; i < 400; i += 100) {
+//            gc.fillRect(i, 0, 10, 30);
+//        }
+//    }
 
-        for(int i = 400; i > 0; i -= 100) {
-            gc.setFill(Color.BLACK);
-            gc.fillRect(0, i, 30, 10);
-        }
-
-        for(int i = 0; i < 400; i += 100) {
-            gc.fillRect(i, 0, 10, 30);
-        }
-    }
-
+    /**
+     * Gibt die aktuelle Simulation zurück.
+     * @return Aktuelle Simulation.
+     */
     public Simulation getSimulation() {
         return this.simulation;
     }
 
+    /**
+     * Ändert den applicationState, erzeugt den Simulator und kopiert die initialSimulation die die simulation.
+     * @param applicationState Status auf den die Anwendung gesetzt werden soll.
+     */
     public void setApplicationState(int applicationState) {
 
         if(applicationState == this.applicationState){
@@ -119,10 +146,16 @@ public class MainView extends VBox {
         }
     }
 
+    /**
+     * @return gibt den Simulator zurück.
+     */
     public Simulator getSimulator() {
         return simulator;
     }
 
+    /**
+     * @return gibt den Application State zurück.
+     */
     public int getApplicationState() {
         return this.applicationState;
     }

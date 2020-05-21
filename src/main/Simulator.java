@@ -1,10 +1,14 @@
 package main;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
+/**
+ * Der Simulator enthält den Simulationsloop. Durch eine Timeline wird die Simulation kontinuierlich aufgerufen.
+ */
 public class Simulator {
 
     private Timeline timeline;
@@ -41,5 +45,9 @@ public class Simulator {
 
     public Duration getDeltaT() {
         return deltaT;
+    }
+
+    public void resetDeltaT() {
+        this.deltaT = Duration.seconds(1/60f);
     }
 }

@@ -6,6 +6,10 @@ import javafx.scene.paint.Color;
 import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 
+/**
+ * Die abstrakte Klasse PhysicObject beschreibt ein physikalisches Objekt. Hier werden alle nötigen Grundeigenschaften
+ * festgelegt die ein Objekt haben muss um berechnungen durchführen zu können.
+ */
 abstract public class PhysicObject {
 
     Vector2f velocity;

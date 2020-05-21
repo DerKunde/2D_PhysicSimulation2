@@ -8,6 +8,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.MainView;
 
+/**
+ * Die Klasse Controller verbindet das GUI mit dem Backend. Hier werden alle Inputs abgegriffen und an die entsprechnenden
+ * Methoden im Backend weitergegeben.
+ */
 public class Controller {
 
     MainView mainView;
@@ -44,6 +48,10 @@ public class Controller {
     @FXML
     private Button fensterSchließen;
 
+    /**
+     * Erzeugt einen neuen Ball auf dem Canvas.
+     * @param event
+     */
     @FXML
     void create(ActionEvent event) {
 
@@ -52,12 +60,20 @@ public class Controller {
 
     }
 
+    /**
+     * Pausiert die Simulation
+     * @param event
+     */
     @FXML
     void pause(ActionEvent event) {
         this.mainView.setApplicationState(MainView.EDITING);
         this.mainView.getSimulator().stop();
     }
 
+    /**
+     * Startet die Simulation neu mit allen Startwerten.
+     * @param event
+     */
     @FXML
     void restart(ActionEvent event) {
         this.mainView.setApplicationState(MainView.EDITING);
@@ -66,6 +82,10 @@ public class Controller {
         System.out.println("Reset!");
     }
 
+    /**
+     * Beendet die Applikation
+     * @param event
+     */
     @FXML
     void schließen(ActionEvent event) {
         Stage stage = (Stage) fensterSchließen.getScene().getWindow();
@@ -73,12 +93,20 @@ public class Controller {
 
     }
 
+    /**
+     * Starten die Simulation
+     * @param event
+     */
     @FXML
     void start(ActionEvent event) {
         this.mainView.setApplicationState(MainView.SIMULATING);
         this.mainView.getSimulator().start();
     }
 
+    /**
+     * Löscht alle hinzugefügten Elemente aus der Simulation.
+     * @param event
+     */
     @FXML
     void stop(ActionEvent event) {
         this.mainView.getSimulator().stop();

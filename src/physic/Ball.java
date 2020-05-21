@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 
+/**
+ * Beschreibt eine physikalische Kugel und erweitert die abstrakte Klasse PhysicObject.
+ */
 public class Ball extends PhysicObject {
 
     private int radius;
@@ -20,8 +23,8 @@ public class Ball extends PhysicObject {
         this.axis = new ArrayList<>();
     }
 
-    public Ball (float x, float y, int radius, double mass) {
-        this.center = new Vector2f(x,y);
+    public Ball (Vector2f center, int radius, double mass) {
+        this.center = center;
         this.radius = radius;
         this.mass = mass;
     }
@@ -50,6 +53,10 @@ public class Ball extends PhysicObject {
         return radius;
     }
 
+    /**
+     * Zeichnet das Objekt auf dem Canvas.
+     * @param gc Der GraphicsContext des Canvas auf dem gezeichnet wird.
+     */
     public void drawObj(GraphicsContext gc) {
 
         gc.setFill(this.color);
@@ -61,7 +68,11 @@ public class Ball extends PhysicObject {
 
     }
 
-    public void calculateAxis(Vector2f a ) {
+    /**
+     * Berechnet die Achse für die Kollisionsüberprüfung.
+     * @param a Vertex eines Polygons der am nächsten zum Mittelpunkt des Balles ist.
+     */
+    public void calculateAxis(Vector2f a) {
 
         Vector2f axes = new Vector2f(this.center.x - a.x, this.center.y -a.y);
         axes.normalize();
@@ -69,6 +80,11 @@ public class Ball extends PhysicObject {
         this.axis.add(axes);
     }
 
+    /**
+     * Projiziert den Ball auf die Achsen des SAT.
+     * @param axis Achse auf die projiziert wird.
+     * @return Berechnete Projektion.
+     */
     @Override
     public Projection project(Vector2f axis) {
 
