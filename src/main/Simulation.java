@@ -121,15 +121,15 @@ public class Simulation {
      System.out.println(objects.size());
    }*/
 
-    /*public void update3() {
+    public void update3() {
 
-        for(int i = 0; i < objects.size(); i++) {
+        /*for(int i = 0; i < objects.size(); i++) {*/
 
-            if(objects.get(i).isFixed()) {
+           /* if(objects.get(1).isFixed()) {
                 break;
-            }
+            }*/
 
-            PhysicObject obj = objects.get(i);
+            PhysicObject obj = objects.get(1);
 
             double x = obj.getCenter().x;
             double y = obj.getCenter().y;
@@ -154,11 +154,12 @@ public class Simulation {
             System.out.println("X: " + newX + "Y: " + newY);
             System.out.println("VelX: " + velX + "VelY: " +velY);
 
-        }
-    }*/
+        /*}*/
+    }
 
     //Rollen auf gerader ebene
     public void update4() {
+
         Ball b1 = (Ball) this.objects.get(1);
         Linie linie = (Linie) this.objects.get(2);
 
@@ -177,8 +178,16 @@ public class Simulation {
         float newX = xBall+1f;
         float newY = yBall+steigung;
 
+        if(xBall <= endX){
+            b1.setCenter(new Vector2f(newX,newY));
+        }else {
+            update3();
+        }
+
+
+
         System.out.println(/*"Steigung berechnet:" +steigung+*/" newX: "+x+", newY: "+newY+", EndX: "+endX+", EndY: "+endY);
-        b1.setCenter(new Vector2f(newX,newY));
+
     }
 
     //Von Vika
@@ -189,8 +198,8 @@ public class Simulation {
         }
         //Schräge mit Ball
         if(wertSim==2){
-            objects.add(new Ball(mouseX,mouseY-25,50,Color.GREEN));
-            objects.add(new Linie(mouseX,mouseY,mouseX+200,mouseY,60,2,Color.BLACK));
+            objects.add(new Ball(mouseX,mouseY-22,50,Color.GREEN));
+            objects.add(new Linie(mouseX,mouseY,mouseX+200,mouseY,70,2,Color.BLACK));
         }
         //Falltür oder was anderes
         if(wertSim==3){
