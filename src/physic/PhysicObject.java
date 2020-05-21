@@ -11,8 +11,8 @@ abstract public class PhysicObject {
     Vector2f speed;
     double mass;
 
-    boolean fixed;
 
+    boolean fixed;
 
     public Vector2f getCenter() {
         return center;

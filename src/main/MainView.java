@@ -40,11 +40,11 @@ public class MainView extends VBox {
 
         this.getChildren().addAll(this.canvas);
 
+        //Hier wurde der Ball erstellt der Fallen soll
         Ball b1 = new Ball(100, 200, 30, Color.CORAL);
         Ball b2 = new Ball(300, 200, 30, Color.NAVY);
 
         ArrayList<PhysicObject> obj = new ArrayList<>(
-                Arrays.asList(b1)
         );
 
         this.initialSimulation = new Simulation(obj, new Vector2f(0,981f));
