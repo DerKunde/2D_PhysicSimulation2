@@ -2,11 +2,9 @@ package main;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import gui.Toolbar;
 import physic.Ball;
 import physic.PhysicObject;
 import physic.Rectangle;
@@ -15,6 +13,11 @@ import javax.vecmath.Vector2f;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * In der Klasse MainView wird das Zeichnen der Simulation behandelt. Außerdem werden hier die Simulationen bearbeitet.
+ * Es gibt zwei Objekte der Klasse Simulation, initialSimulation speichert den Ausgangszustand ab um das Zurücksetzten zu ermöglichen.
+ * Des weitern wird hier das Objekt simulator der Klasse Simulator erzeugt.
+ */
 public class MainView extends VBox {
 
     public static final int EDITING = 0;
@@ -36,51 +39,52 @@ public class MainView extends VBox {
 
     public MainView() {
         this.canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+
         this.canvas.setOnMousePressed(this::handleDraw);
+
 
         this.getChildren().addAll(this.canvas);
 
-        //Hier wurde der Ball erstellt der Fallen soll
-        Ball b1 = new Ball(100, 200, 30, Color.CORAL);
-        Ball b2 = new Ball(300, 200, 30, Color.NAVY);
+        Ball b1 = new Ball(new Vector2f(100,400), 30, Color.CORAL);
+        Ball b2 = new Ball(new Vector2f(200,300), 30, Color.NAVY);
+
+        PhysicObject r1 = new Rectangle(new Vector2f(0, 380), 400, 50);
+        PhysicObject r2 = new Rectangle(new Vector2f(500, 250), 300,50);
 
         ArrayList<PhysicObject> obj = new ArrayList<>(
+                Arrays.asList(r1, r2)
         );
 
         this.initialSimulation = new Simulation(obj, new Vector2f(0,981f));
         this.simulation = Simulation.copy(this.initialSimulation);
     }
 
-    //Befor der Ball erstellt wird wird diese Funktion aufgerufen
+    /**
+     * Mit einem Klick auf den Canvas kann eine neue Kugel erzeugt werden falls sie die Anwendung im EDITING Mode befindet.
+     * @param mouseEvent
+     */
     private void handleDraw(MouseEvent mouseEvent) {
 
         int mouseX = (int) mouseEvent.getX();
         int mouseY = (int) mouseEvent.getY();
 
-        //Hier ist einfach wenn der Modus Editing ist das man den Ball zeichnen kann
         if(applicationState == EDITING) {
-
-            /*  TODO: Hier Könnte man statdessen eine Funktion einbinden die verschiedene Objekte zeichnet
-                TODO: Am besten werden die Rechtecke eingefärbt so das man erkennt was ausgewählt ist*/
-
             this.initialSimulation.creatShape(mouseX,mouseY,this.wertObj);
-
-            //CreatBall wird in Simulation erstellt
-            //this.initialSimulation.createBall(mouseX, mouseY);
-
             System.out.println(mouseX + ", " + mouseY);
             draw();
         }
     }
 
+    /**
+     * Die Methode draw überprüft den applicationState um zu entscheiden welche der beiden Simulationen gezeichnet werden
+     * soll.
+     */
     public void draw() {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0,0,MainView.CANVAS_WIDTH + 50,MainView.CANVAS_HEIGHT + 50);
-        drawScale();
-
-        //Ist es editing dan speichere die simulation ansonsten aktiviere die Simulation
+        //drawScale();
         if(this.applicationState == EDITING) {
             drawSimulation(this.initialSimulation);
         } else {
@@ -88,6 +92,10 @@ public class MainView extends VBox {
         }
     }
 
+    /**
+     * Die übergeben Simulation wird gezeichnet.
+     * @param simulationToDraw Zu zeichnende Simulation.
+     */
     private void drawSimulation(Simulation simulationToDraw) {
 
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
@@ -98,23 +106,34 @@ public class MainView extends VBox {
 
     }
 
-    private void drawScale() {
-        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+    /**
+     * Zeichnet eine einfache Orientierung für die Sprunghöhe.
+     */
+//    private void drawScale() {
+//        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+//
+//        for(int i = 400; i > 0; i -= 100) {
+//            gc.setFill(Color.BLACK);
+//            gc.fillRect(0, i, 30, 10);
+//        }
+//
+//        for(int i = 0; i < 400; i += 100) {
+//            gc.fillRect(i, 0, 10, 30);
+//        }
+//    }
 
-        for(int i = 400; i > 0; i -= 100) {
-            gc.setFill(Color.BLACK);
-            gc.fillRect(0, i, 30, 10);
-        }
-
-        for(int i = 0; i < 400; i += 100) {
-            gc.fillRect(i, 0, 10, 30);
-        }
-    }
-
+    /**
+     * Gibt die aktuelle Simulation zurück.
+     * @return Aktuelle Simulation.
+     */
     public Simulation getSimulation() {
         return this.simulation;
     }
 
+    /**
+     * Ändert den applicationState, erzeugt den Simulator und kopiert die initialSimulation die die simulation.
+     * @param applicationState Status auf den die Anwendung gesetzt werden soll.
+     */
     public void setApplicationState(int applicationState) {
 
         if(applicationState == this.applicationState){
@@ -126,25 +145,27 @@ public class MainView extends VBox {
         if(applicationState == SIMULATING) {
             this.simulation = Simulation.copy(this.initialSimulation);
             this.simulator = new Simulator(this, this.simulation);
-            System.out.println("Copy Made");
         }
     }
 
-    public int getWert() {
-        return wertObj;
-    }
-
-    public void setWert(int wert) {
-        this.wertObj = wert;
-        System.out.println("set Wert auf: "+ this.wertObj);
-    }
-
+    /**
+     * @return gibt den Simulator zurück.
+     */
     public Simulator getSimulator() {
         return simulator;
     }
 
+    /**
+     * @return gibt den Application State zurück.
+     */
     public int getApplicationState() {
         return this.applicationState;
     }
 
+    /**
+     * Setzt den Status aktiv von dem Ausgewählten Togglebutton
+     */
+    public void setWert(int wert) {
+        this.wertObj = wert;
+    }
 }

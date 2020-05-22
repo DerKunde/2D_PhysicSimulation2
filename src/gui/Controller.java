@@ -3,27 +3,32 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.Dragboard;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.scene.shape.*;
 import main.MainView;
-import sun.util.resources.CalendarData;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-
+/**
+ * Die Klasse Controller verbindet das GUI mit dem Backend. Hier werden alle Inputs abgegriffen und an die entsprechnenden
+ * Methoden im Backend weitergegeben.
+ */
 public class Controller {
 
     MainView mainView;
     ArrayList<ToggleButton> toggleButtons;
+    int wert;
 
     @FXML
     StackPane mainViewContainer = new StackPane();
+
+    @FXML
+    TextField xInput = new TextField();
+    TextField yInput = new TextField();
 
     public void initialize() {
         this.mainView = new MainView();
@@ -37,7 +42,6 @@ public class Controller {
         toggleButtons.add(falltuer);
         toggleButtons.add(ball);
         toggleButtons.add(rechteck);
-
     }
 
     @FXML
@@ -59,15 +63,70 @@ public class Controller {
     private Button fensterSchließen;
 
     @FXML
-    void create(ActionEvent event) {
-
-    }
+    private ToggleButton geradeLinie;
 
     @FXML
+    private ToggleButton schreageLinie;
+
+    @FXML
+    private ToggleButton falltuer;
+
+    @FXML
+    private ToggleButton ball;
+
+    @FXML
+    private ToggleButton rechteck;
+
+    @FXML
+    private TextField weightString;
+
+    @FXML
+    private  TextField heightString;
+
+    @FXML
+    private TextField elasticityString;
+
+    @FXML
+    private TextField posXString;
+
+    @FXML
+    private TextField posYString;
+
+    /**
+     * Erzeugt einen neuen Ball auf dem Canvas.
+     * @param event
+     */
+    @FXML
+    void create(ActionEvent event) {
+        /*//int weight = Integer.parseInt(weightString.getText());
+        String heightText = heightString.getText();
+        int height = Integer.parseInt(heightText);
+        //int elasticity= Integer.parseInt(elasticityString.getText());
+        String posX_Text = posXString.getText();
+        int posX= Integer.parseInt(posX_Text);
+
+        String posY_Text = posYString.getText();
+        int posY= Integer.parseInt(posX_Text);*/
+
+        //this.mainView.initialSimulation.createBall(posX, posY, height, Color.BLUE);
+        this.mainView.initialSimulation.createBall(200, 200, 70, Color.BLUE);
+        this.mainView.draw();
+    }
+
+    /**
+     * Pausiert die Simulation
+     * @param event
+     */
+    @FXML
     void pause(ActionEvent event) {
+        this.mainView.setApplicationState(MainView.EDITING);
         this.mainView.getSimulator().stop();
     }
 
+    /**
+     * Startet die Simulation neu mit allen Startwerten.
+     * @param event
+     */
     @FXML
     void restart(ActionEvent event) {
         this.mainView.setApplicationState(MainView.EDITING);
@@ -76,6 +135,10 @@ public class Controller {
         System.out.println("Reset!");
     }
 
+    /**
+     * Beendet die Applikation
+     * @param event
+     */
     @FXML
     void schließen(ActionEvent event) {
         Stage stage = (Stage) fensterSchließen.getScene().getWindow();
@@ -83,124 +146,73 @@ public class Controller {
 
     }
 
+    /**
+     * Starten die Simulation
+     * @param event
+     */
     @FXML
     void start(ActionEvent event) {
         this.mainView.setApplicationState(MainView.SIMULATING);
         this.mainView.getSimulator().start();
     }
 
+    /**
+     * Löscht alle hinzugefügten Elemente aus der Simulation.
+     * @param event
+     */
     @FXML
     void stop(ActionEvent event) {
         this.mainView.getSimulator().stop();
     }
-
-    @FXML
-    private ToggleButton geradeLinie;
-    @FXML
-    private ToggleButton schreageLinie;
-    @FXML
-    private ToggleButton falltuer;
-    @FXML
-    private ToggleButton ball;
-    @FXML
-    private ToggleButton rechteck;
-
-    public int getWert() {
-        return wert;
-    }
-
-    public void setWert(int wert) {
-        this.wert = wert;
-    }
-
-    int wert;
-/*    @FXML
-    void toggle(ActionEvent actionEvent){
-        System.out.println(actionEvent.getSource());
-        if(actionEvent.getSource()==geradeLinie){
-            checkAktiv(geradeLinie);
-            this.wert = 1;
-            this.mainView.setWert(wert);
-            System.out.println("Gerade Linie wurde ausgewählt.");
-        }
-        if(actionEvent.getSource()==schreageLinie){
-            checkAktiv(schreageLinie);
-            this.wert= 2;
-            this.mainView.setWert(wert);
-            System.out.println("Schreage Linie wurde ausgewählt");
-        }
-        if(actionEvent.getSource()==falltuer){
-            checkAktiv(falltuer);
-            this.wert= 3;
-            this.mainView.setWert(wert);
-            System.out.println("Falltuer wurde ausgewählt.");
-        }
-        if(actionEvent.getSource()==ball){
-            checkAktiv(ball);
-            this.wert =4;
-            this.mainView.setWert(wert);
-            System.out.println("Ball wurde ausgewählt.");
-        }
-        if(actionEvent.getSource()==rechteck){
-            checkAktiv(rechteck);
-            this.wert =5;
-            this.mainView.setWert(wert);
-            System.out.println("Recht-eck wurde ausgewählt.");
-        }else {
-            this.wert= 6;
-            this.mainView.setWert(wert);
-        }
-
-    }*/
-
+    /**
+     *Hier werden die Events der Togglebuttons überwacht
+     * @param event
+     */
     @FXML
     void toggleLinie(ActionEvent event){
         checkAktiv(geradeLinie);
         this.wert = 1;
         this.mainView.setWert(wert);
-        System.out.println("Gerade Linie wurde ausgewählt.");
+        System.out.println("Gerade Linie");
     }
     @FXML
     void toggleSchreage(ActionEvent event){
         checkAktiv(schreageLinie);
         this.wert= 2;
         this.mainView.setWert(wert);
-        System.out.println("Schreage Linie wurde ausgewählt");
+        System.out.println("Schreage Linie");
     }
     @FXML
     void toggleFalltuer(ActionEvent event){
         checkAktiv(falltuer);
         this.wert= 3;
         this.mainView.setWert(wert);
-        System.out.println("Falltuer wurde ausgewählt.");
+        System.out.println("Falltuer");
     }
     @FXML
     void toggleBall(ActionEvent event){
         checkAktiv(ball);
         this.wert =4;
         this.mainView.setWert(wert);
-        System.out.println("Ball wurde ausgewählt.");
+        System.out.println("Ball");
     }
     @FXML
     void toggleRect(ActionEvent event){
         checkAktiv(rechteck);
         this.wert =5;
         this.mainView.setWert(wert);
-        System.out.println("Recht-eck wurde ausgewählt.");
+        System.out.println("Rechteck");
     }
+    /**
+     * Hier wird geprüft ob bereits ein witerer Button aktiv ist dieser Wird dan deaktiviert
+     */
     @FXML
     private void checkAktiv(ToggleButton button){
-        System.out.println("Prüfe andere Buttons und gebe ID aus vom Button: "+ button.getId());
         for(int i=0;i<toggleButtons.size();i++){
             if(!toggleButtons.get(i).getId().equals(button.getId())){
-                System.out.println("Wird deaktiviert!");
                 toggleButtons.get(i).setSelected(false);
-            }
-            else{
-                System.out.println("Ist ausgwählt");
             }
         }
     }
-
 
 }

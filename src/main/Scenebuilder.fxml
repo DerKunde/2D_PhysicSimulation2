@@ -20,14 +20,16 @@
         <Button fx:id="stopSimulation" layoutX="209.0" layoutY="37.0" mnemonicParsing="false" onAction="#stop" text="Stop" AnchorPane.rightAnchor="550.0" AnchorPane.topAnchor="37.0" />
         <Button fx:id="restartSimulation" layoutX="283.0" layoutY="37.0" mnemonicParsing="false" onAction="#restart" text="Neustart" AnchorPane.leftAnchor="283.0" AnchorPane.rightAnchor="455.0" AnchorPane.topAnchor="37.0" />
         <Circle fill="#ff321f" layoutX="734.0" layoutY="96.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="64.0" />
-        <Label layoutX="685.0" layoutY="143.0" text="Gewicht in Gramm" wrapText="true" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="143.0" />
+        <Label layoutX="682.0" layoutY="139.0" text="Gewicht in Gramm" wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="139.0" />
         <Slider layoutX="361.0" layoutY="34.0" showTickMarks="true" value="30.0" AnchorPane.rightAnchor="299.0" AnchorPane.topAnchor="34.0" />
-        <Label layoutX="366.0" layoutY="10.0" text="Startgeschw." AnchorPane.rightAnchor="367.0" AnchorPane.topAnchor="10.0" />
-        <TextField alignment="TOP_CENTER" layoutX="689.0" layoutY="165.0" prefHeight="25.0" prefWidth="90.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="165.0" />
-        <Label layoutX="698.0" layoutY="207.0" text="Größe r in cm" wrapText="true" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="207.0" />
-        <TextField alignment="TOP_CENTER" layoutX="689.0" layoutY="233.0" prefHeight="25.0" prefWidth="90.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="233.0" />
-        <Button fx:id="createSimulation" layoutX="704.0" layoutY="335.0" mnemonicParsing="false" onAction="#create" text="Erstellen" textFill="#047212" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="335.0" />
-        <Button fx:id="fensterSchließen" layoutX="700.0" layoutY="552.0" mnemonicParsing="false" onAction="#schließen" onMouseClicked="#schließen" text="Schließen" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="552.0" />
+        <Label layoutX="704.0" layoutY="325.0" text="Position" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="325.0" />
+        <TextField fx:id="weight" alignment="TOP_CENTER" layoutX="680.0" layoutY="163.0" prefHeight="25.0" prefWidth="90.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="163.0" />
+        <Label layoutX="684.0" layoutY="206.0" text="Größe h in cm" wrapText="true" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="206.0" />
+        <TextField fx:id="height" alignment="TOP_CENTER" layoutX="680.0" layoutY="233.0" prefHeight="25.0" prefWidth="90.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="233.0" />
+        <Button fx:id="createSimulation" layoutX="697.0" layoutY="378.0" mnemonicParsing="false" onAction="#create" text="Erstellen" textFill="#047212" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="378.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="64.0" layoutX="695.0" layoutY="442.0" stroke="BLACK" strokeType="INSIDE" width="61.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="442.0" />
+        <Circle fx:id="dragCircle" fill="#ff321f" layoutX="727.0" layoutY="474.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="457.0" />
+        <Button fx:id="fensterSchließen" layoutX="705.0" layoutY="550.0" mnemonicParsing="false" onAction="#schließen" onMouseClicked="#schließen" text="Schließen" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="550.0" />
         <Line endX="-100.0" endY="63.0" layoutX="834.0" layoutY="64.0" startX="-100.0" AnchorPane.rightAnchor="65.5" AnchorPane.topAnchor="63.5" />
         <Label layoutX="738.0" layoutY="88.0" text="h" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="88.0" />
         <TextField layoutX="484.0" layoutY="6.0" prefHeight="25.0" prefWidth="34.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="6.0" />
@@ -60,35 +62,38 @@
             </image>
         </ImageView>
         <Canvas height="346.0" layoutX="38.0" layoutY="215.0" width="550.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="212.0" AnchorPane.topAnchor="215.0" />
-        <Label layoutX="709.0" layoutY="270.0" text="Elastizität" wrapText="true" />
-        <TextField alignment="TOP_CENTER" layoutX="690.0" layoutY="294.0" prefHeight="25.0" prefWidth="90.0" />
+        <Label layoutX="696.0" layoutY="270.0" text="Elastizität" wrapText="true" />
+        <TextField fx:id="elasticity" alignment="TOP_CENTER" layoutX="681.0" layoutY="287.0" prefHeight="25.0" prefWidth="90.0" />
         <Slider layoutX="548.0" layoutY="42.0" showTickMarks="true" value="50.0" />
         <Label layoutX="553.0" layoutY="18.0" text="Zeitraffer" />
         <TextField layoutX="671.0" layoutY="14.0" prefHeight="25.0" prefWidth="34.0" text="1" />
       <StackPane fx:id="mainViewContainer" layoutX="32.0" layoutY="204.0" prefHeight="360.0" prefWidth="550.0" />
-      <ToggleButton fx:id="geradeLinie" layoutX="51.0" layoutY="111.0" mnemonicParsing="false" onAction="#toggleLinie" prefHeight="58.0" prefWidth="64.0">
-         <graphic>
-              <Line endX="-63.0" startX="-100.0" />
-         </graphic>
-      </ToggleButton>
-      <ToggleButton fx:id="schreageLinie" layoutX="131.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleSchreage" prefHeight="58.0" prefWidth="64.0" />
-      <Circle fill="DODGERBLUE" layoutX="153.0" layoutY="128.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <ToggleButton fx:id="falltuer" layoutX="209.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleFalltuer" prefHeight="58.0" prefWidth="64.0">
-         <graphic>
-              <Line endX="-63.0" startX="-100.0" stroke="#ff321f" />
-         </graphic>
-      </ToggleButton>
-      <ToggleButton fx:id="ball" layoutX="287.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleBall" prefHeight="58.0" prefWidth="64.0">
-         <graphic>
-      
-              <Circle fill="#f20000" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-         </graphic>
-      </ToggleButton>
-      <ToggleButton fx:id="rechteck" layoutX="361.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleRect" prefHeight="58.0" prefWidth="64.0">
-         <graphic>
-              <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="#000000a3" height="34.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-         </graphic>
-      </ToggleButton>
-      <Line endX="-57.0" endY="29.0" layoutX="239.0" layoutY="128.0" startX="-100.0" />
+        <TextField layoutX="743.0" layoutY="342.0" prefHeight="25.0" prefWidth="34.0" />
+      <TextField fx:id="posX" layoutX="685.0" layoutY="342.0" prefHeight="25.0" prefWidth="34.0" />
+      <Label layoutX="667.0" layoutY="346.0" text="X:" />
+      <Label layoutX="729.0" layoutY="346.0" text="Y:" />
+        <ToggleButton fx:id="geradeLinie" layoutX="51.0" layoutY="111.0" mnemonicParsing="false" onAction="#toggleLinie" prefHeight="58.0" prefWidth="64.0">
+            <graphic>
+                <Line endX="-63.0" startX="-100.0" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton fx:id="schreageLinie" layoutX="131.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleSchreage" prefHeight="58.0" prefWidth="64.0" />
+        <Circle fill="DODGERBLUE" layoutX="153.0" layoutY="128.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+        <ToggleButton fx:id="falltuer" layoutX="209.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleFalltuer" prefHeight="58.0" prefWidth="64.0">
+            <graphic>
+                <Line endX="-63.0" startX="-100.0" stroke="#ff321f" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton fx:id="ball" layoutX="287.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleBall" prefHeight="58.0" prefWidth="64.0">
+            <graphic>
+                <Circle fill="#f20000" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton fx:id="rechteck" layoutX="361.0" layoutY="112.0" mnemonicParsing="false" onAction="#toggleRect" prefHeight="58.0" prefWidth="64.0">
+            <graphic>
+                <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="#000000a3" height="34.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
+            </graphic>
+        </ToggleButton>
+        <Line endX="-57.0" endY="29.0" layoutX="239.0" layoutY="128.0" startX="-100.0" />
     </children>
 </AnchorPane>
